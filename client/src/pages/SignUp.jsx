@@ -25,6 +25,7 @@ function SignUp() {
       });
       const data = await res.json();
       console.log(data);
+      console.log(formData);
       if (data.success === false) {
         setLoading(false);
         setError(data.message);

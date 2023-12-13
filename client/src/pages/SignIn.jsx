@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../redux/user/userSlice";
+import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice'
+
 
 function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.user);
+  // console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleChange = (e) => {
+  const handleChange = (e) => {  
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
@@ -27,16 +25,19 @@ function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
       const data = await res.json();
+      console.log("Received data:", data);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;
       }
       dispatch(signInSuccess(data));
+      console.log('Data from signInSuccess',data);
       navigate("/");
     } catch (error) {
+      console.error("Error during sign in:", error);
       dispatch(signInFailure(error.message));
     }
   };
