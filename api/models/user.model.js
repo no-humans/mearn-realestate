@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-1024.png",
+    },
   },
   { timestamps: true }
 );
