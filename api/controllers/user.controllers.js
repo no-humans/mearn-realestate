@@ -37,3 +37,21 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+export const checkDuplicate = async (req, res, next) => {
+  const { username, email } = req.body;
+
+  try {
+    const existingUser = await User.findOne({
+      $or: [{ username }, { email }],
+      _id: { $ne: req.params.id },
+    });
+
+    if (existingUser) {
+      return next(errorHandler(400, "Username or email already exists"));
+    }
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};

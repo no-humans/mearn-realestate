@@ -64,6 +64,24 @@ function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
+          // Check if the username or email is already taken before initiating the update
+    const checkDuplicateRes = await fetch(`/api/user/check-duplicate/${currentUser._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+      }),
+    });
+
+    const checkDuplicateData = await checkDuplicateRes.json();
+    
+    if (checkDuplicateData.success === false) {
+      dispatch(updateUserFailure(checkDuplicateData.message));
+      return;
+    }
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
