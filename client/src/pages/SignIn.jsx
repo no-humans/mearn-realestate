@@ -28,16 +28,16 @@ function SignIn() {
         body: JSON.stringify(formData)
       });
       const data = await res.json();
-      console.log("Received data:", data);
+      // console.log("Received data:", data);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;
       }
       dispatch(signInSuccess(data));
-      console.log('Data from signInSuccess',data);
+      // console.log('Data from signInSuccess',data);
       navigate("/");
     } catch (error) {
-      console.error("Error during sign in:", error);
+      // console.error("Error during sign in:", error);
       dispatch(signInFailure(error.message));
     }
   };
